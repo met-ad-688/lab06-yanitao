@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.547">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Your Name">
+<meta name="dcterms.date" content="2024-11-21">
+
+<title>Module 04: Lab 01</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="lab06_yanitao_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab06_yanitao_files/libs/quarto-html/quarto.js"></script>
+<script src="lab06_yanitao_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab06_yanitao_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab06_yanitao_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab06_yanitao_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab06_yanitao_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab06_yanitao_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab06_yanitao_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab06_yanitao_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Module 04: Lab 01</h1>
+<p class="subtitle lead">Visual Reporting and Storytelling</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">visualization</div>
+    <div class="quarto-category">plotly</div>
+    <div class="quarto-category">spark</div>
+    <div class="quarto-category">Visual Reporting</div>
+    <div class="quarto-category">Storytelling with Data</div>
+    <div class="quarto-category">Industry-Specific Visualization</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your Name </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 21, 2024</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 26, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objectives" class="level1 unnumbered">
+<h1 class="unnumbered">Objectives</h1>
+<p>By the end of this lab, you will: 1. Load and analyze the <strong>Lightcast dataset</strong> in <strong>Spark DataFrame</strong>. 2. Create <strong>five easy and three medium-complexity visualizations</strong> using <strong>Plotly</strong>. 3. Explore <strong>salary distributions, employment trends, and job postings</strong>. 4. Analyze <strong>skills in relation to NAICS/SOC/ONET codes and salaries</strong>. 5. Customize <strong>colors, fonts, and styles</strong> in all visualizations (<strong>default themes result in a 2.5-point deduction</strong>). 6. Follow <strong>best practices for reporting on data communication</strong>.</p>
+</section>
+<section id="step-1-load-the-dataset" class="level1 unnumbered">
+<h1 class="unnumbered">Step 1: Load the Dataset</h1>
+<div id="cell-3" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pio.renderers.default <span class="op">=</span> <span class="st">"vscode"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Spark Session</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.appName(<span class="st">"LightcastData"</span>).getOrCreate()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.option(<span class="st">"header"</span>, <span class="st">"true"</span>).option(<span class="st">"inferSchema"</span>, <span class="st">"true"</span>).option(<span class="st">"multiLine"</span>,<span class="st">"true"</span>).option(<span class="st">"escape"</span>, <span class="st">"</span><span class="ch">\"</span><span class="st">"</span>).csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Show Schema and Sample Data</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Py4JJavaError: An error occurred while calling None.org.apache.spark.api.java.JavaSparkContext.
+: java.lang.UnsupportedOperationException: getSubject is supported only if a security manager is allowed
+    at java.base/javax.security.auth.Subject.getSubject(Subject.java:347)
+    at org.apache.hadoop.security.UserGroupInformation.getCurrentUser(UserGroupInformation.java:577)
+    at org.apache.spark.util.Utils$.$anonfun$getCurrentUserName$1(Utils.scala:2416)
+    at scala.Option.getOrElse(Option.scala:189)
+    at org.apache.spark.util.Utils$.getCurrentUserName(Utils.scala:2416)
+    at org.apache.spark.SparkContext.&lt;init&gt;(SparkContext.scala:329)
+    at org.apache.spark.api.java.JavaSparkContext.&lt;init&gt;(JavaSparkContext.scala:58)
+    at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+    at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:501)
+    at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:485)
+    at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:247)
+    at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+    at py4j.Gateway.invoke(Gateway.java:238)
+    at py4j.commands.ConstructorCommand.invokeConstructor(ConstructorCommand.java:80)
+    at py4j.commands.ConstructorCommand.execute(ConstructorCommand.java:69)
+    at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+    at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+    at java.base/java.lang.Thread.run(Thread.java:1575)</code></pre>
+</div>
+</div>
+</section>
+<section id="salary-distribution-by-employment-type" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Salary Distribution by Employment Type</h1>
+<ul>
+<li>Identify salary trends across different employment types.</li>
+<li><strong>Filter the dataset</strong>
+<ul>
+<li>Remove records where <strong>salary is missing or zero</strong>.</li>
+</ul></li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Group by <strong>employment type</strong> and compute salary distribution.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>box plot</strong> where:
+<ul>
+<li><strong>X-axis</strong> = <code>EMPLOYMENT_TYPE_NAME</code></li>
+<li><strong>Y-axis</strong> = <code>SALARY_FROM</code></li>
+</ul></li>
+<li>Customize <strong>colors, fonts, and styles</strong> to avoid a <strong>2.5-point deduction</strong>.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-5" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_salary_by_employment_type(df):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    filtered_df <span class="op">=</span> df[df[<span class="st">'SALARY_FROM'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    sns.boxplot(x<span class="op">=</span><span class="st">'EMPLOYMENT_TYPE_NAME'</span>, y<span class="op">=</span><span class="st">'SALARY_FROM'</span>, data<span class="op">=</span>filtered_df, palette<span class="op">=</span><span class="st">'Set2'</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Salary Distribution by Employment Type'</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Employment Type'</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Starting Salary'</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q1_salary_by_employment_type.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q1_salary_by_employment_type.svg" class="img-fluid" alt="Salary Distribution by Employment Type"> Full-time employment (more than 32 hours) shows a higher median starting salary compared to part-time roles. However, salary distributions for all employment types include significant outliers, indicating variation within each category.</p>
+</section>
+<section id="salary-distribution-by-industry" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Salary Distribution by Industry</h1>
+<ul>
+<li>Compare salary variations across industries.</li>
+<li><strong>Filter the dataset</strong>
+<ul>
+<li>Keep records where <strong>salary is greater than zero</strong>.</li>
+</ul></li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Group by <strong>NAICS industry codes</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>box plot</strong> where:
+<ul>
+<li><strong>X-axis</strong> = <code>NAICS2_NAME</code></li>
+<li><strong>Y-axis</strong> = <code>SALARY_FROM</code></li>
+</ul></li>
+<li>Customize colors, fonts, and styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-8" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_salary_distribution_by_industry(df):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">=</span> <span class="st">'_output/q2_salary_by_industry.svg'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    filtered_df <span class="op">=</span> df[df[<span class="st">'SALARY_FROM'</span>] <span class="op">&gt;</span> <span class="dv">0</span>].copy()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">12</span>)) </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    sns.boxplot(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">'NAICS2_NAME'</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">'SALARY_FROM'</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>filtered_df,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span><span class="st">'cubehelix'</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        showfliers<span class="op">=</span><span class="va">False</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Salary Distribution by Industry'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Industry'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Starting Salary'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    plt.savefig(output_path, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q2_salary_by_industry.svg" class="img-fluid" alt="Salary Distribution by Industry"> Industries such as “Information” and “Professional, Scientific, and Technical Services” exhibit higher median starting salaries. In contrast, sectors like “Educational Services” and “Public Administration” tend to offer lower starting salaries, reflecting industry-based compensation differences.</p>
+</section>
+<section id="job-posting-trends-over-time" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Job Posting Trends Over Time</h1>
+<ul>
+<li>Analyze how job postings fluctuate over time.</li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Count job postings per <strong>posted date (<code>POSTED</code>)</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>line chart</strong> where:
+<ul>
+<li><strong>X-axis</strong> = <code>POSTED</code></li>
+<li><strong>Y-axis</strong> = <code>Number of Job Postings</code></li>
+</ul></li>
+<li>Apply custom colors and font styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-11" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_job_trends_over_time(df):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'POSTED_DATE'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    post_counts <span class="op">=</span> df.groupby(<span class="st">'POSTED_DATE'</span>).size().reset_index(name<span class="op">=</span><span class="st">'Job Count'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    post_counts[<span class="st">'POSTED_DATE'</span>] <span class="op">=</span> post_counts[<span class="st">'POSTED_DATE'</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    sns.lineplot(x<span class="op">=</span><span class="st">'POSTED_DATE'</span>, y<span class="op">=</span><span class="st">'Job Count'</span>, data<span class="op">=</span>post_counts, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Job Posting Trends Over Time'</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Posted Date (Month)'</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Number of Job Postings'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q3_posting_trend.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q3_posting_trend.svg" class="img-fluid" alt="Job Posting Trends Over Time"> Job postings decreased from May to July 2024, hitting a low point in July. However, there was a strong rebound in August and September, indicating renewed hiring activity towards the end of the quarter.</p>
+</section>
+<section id="top-10-job-titles-by-count" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Top 10 Job Titles by Count</h1>
+<ul>
+<li>Identify the most frequently posted job titles.</li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Count the occurrences of each <strong>job title (<code>TITLE_NAME</code>)</strong>.</li>
+<li>Select the <strong>top 10 most frequent titles</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>bar chart</strong> where:
+<ul>
+<li><strong>X-axis</strong> = <code>TITLE_NAME</code></li>
+<li><strong>Y-axis</strong> = <code>Job Count</code></li>
+</ul></li>
+<li>Apply custom colors and font styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-14" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_top_10_job_titles(df):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    top_titles <span class="op">=</span> df[<span class="st">'TITLE_NAME'</span>].value_counts().nlargest(<span class="dv">10</span>).reset_index()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    top_titles.columns <span class="op">=</span> [<span class="st">'TITLE_NAME'</span>, <span class="st">'Job Count'</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    sns.barplot(y<span class="op">=</span><span class="st">'TITLE_NAME'</span>, x<span class="op">=</span><span class="st">'Job Count'</span>, data<span class="op">=</span>top_titles, palette<span class="op">=</span><span class="st">'mako'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Top 10 Job Titles by Count'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Job Count'</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Job Title'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q4_top_titles.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q4_top_titles.svg" class="img-fluid" alt="Top 10 Job Titles"> “Data Analysts” dominate the job postings with a significantly higher count than other titles, highlighting strong demand for data-focused roles. Roles like “Business Intelligence Analysts” and “Enterprise Architects” also appear frequently, suggesting ongoing needs in analytics and strategic IT planning.</p>
+</section>
+<section id="remote-vs-on-site-job-postings" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Remote vs On-Site Job Postings</h1>
+<ul>
+<li>Compare the proportion of remote and on-site job postings.</li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Count job postings by <strong>remote type (<code>REMOTE_TYPE_NAME</code>)</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>pie chart</strong> where:
+<ul>
+<li><strong>Labels</strong> = <code>REMOTE_TYPE_NAME</code></li>
+<li><strong>Values</strong> = <code>Job Count</code></li>
+</ul></li>
+<li>Apply custom colors and font styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-17" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_remote_vs_onsite(df):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    remote_counts <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts().reset_index()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    remote_counts.columns <span class="op">=</span> [<span class="st">'REMOTE_TYPE_NAME'</span>, <span class="st">'Job Count'</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    plt.pie(remote_counts[<span class="st">'Job Count'</span>], labels<span class="op">=</span>remote_counts[<span class="st">'REMOTE_TYPE_NAME'</span>], autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, colors<span class="op">=</span>sns.color_palette(<span class="st">'pastel'</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Remote vs On-Site Job Postings'</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q5_remote_vs_onsite.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q5_remote_vs_onsite.svg" class="img-fluid" alt="Remote vs On-Site Job Postings"> A significant portion (73.2%) of job postings lack remote work classification, indicating incomplete labeling or on-site defaults. Among those labeled, 21.3% are remote roles, suggesting a moderate trend toward remote work but still a minority overall.</p>
+</section>
+<section id="skill-demand-analysis-by-industry-stacked-bar-chart" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Skill Demand Analysis by Industry (Stacked Bar Chart)</h1>
+<ul>
+<li>Identify which skills are most in demand in various industries.</li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Extract <strong>skills</strong> from job postings.</li>
+<li>Count occurrences of skills grouped by <strong>NAICS industry codes</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>stacked bar chart</strong> where:
+<ul>
+<li><strong>X-axis</strong> = <code>Industry</code></li>
+<li><strong>Y-axis</strong> = <code>Skill Count</code></li>
+<li><strong>Color</strong> = <code>Skill</code></li>
+</ul></li>
+<li>Apply custom colors and font styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-20" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_skill_demand_stacked(df):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> ast</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'SKILLS_NAME'</span>] <span class="op">=</span> df[<span class="st">'SKILLS_NAME'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: ast.literal_eval(x) <span class="cf">if</span> <span class="bu">isinstance</span>(x, <span class="bu">str</span>) <span class="kw">and</span> x.startswith(<span class="st">'['</span>) <span class="cf">else</span> [])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    exploded <span class="op">=</span> df.explode(<span class="st">'SKILLS_NAME'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    grouped <span class="op">=</span> exploded.groupby([<span class="st">'NAICS2_NAME'</span>, <span class="st">'SKILLS_NAME'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Count'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    top_skills <span class="op">=</span> grouped.groupby(<span class="st">'SKILLS_NAME'</span>)[<span class="st">'Count'</span>].<span class="bu">sum</span>().nlargest(<span class="dv">5</span>).index</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    filtered <span class="op">=</span> grouped[grouped[<span class="st">'SKILLS_NAME'</span>].isin(top_skills)]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    pivot <span class="op">=</span> filtered.pivot_table(index<span class="op">=</span><span class="st">'NAICS2_NAME'</span>, columns<span class="op">=</span><span class="st">'SKILLS_NAME'</span>, values<span class="op">=</span><span class="st">'Count'</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    pivot.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">12</span>), colormap<span class="op">=</span><span class="st">'tab20c'</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>) </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Top 5 Skill Demand by Industry'</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Skill Count'</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Industry'</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q6_skill_stacked.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q6_skill_stacked.svg" class="img-fluid" alt="Top 5 Skill Demand by Industry"> Across industries, Communication, Data Analysis, and Management consistently rank among the top demanded skills. Particularly in “Professional, Scientific, and Technical Services” and “Finance and Insurance”, the demand for these core skills is significantly higher, indicating a strong emphasis on both interpersonal and analytical capabilities.</p>
+</section>
+<section id="salary-analysis-by-onet-occupation-type-bubble-chart" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Salary Analysis by ONET Occupation Type (Bubble Chart)</h1>
+<ul>
+<li>Analyze how salaries differ across ONET occupation types.</li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Compute <strong>median salary</strong> for each occupation in the <strong>ONET taxonomy</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>bubble chart</strong> where:
+<ul>
+<li><strong>X-axis</strong> = <code>ONET_NAME</code></li>
+<li><strong>Y-axis</strong> = <code>Median Salary</code></li>
+<li><strong>Size</strong> = Number of job postings</li>
+</ul></li>
+<li>Apply custom colors and font styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-23" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_salary_by_onet_type(df):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    onet_group <span class="op">=</span> df.groupby(<span class="st">'ONET_NAME'</span>).agg({</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'SALARY_FROM'</span>: <span class="st">'median'</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'TITLE_NAME'</span>: <span class="st">'count'</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    }).reset_index().rename(columns<span class="op">=</span>{<span class="st">'SALARY_FROM'</span>: <span class="st">'Median Salary'</span>, <span class="st">'TITLE_NAME'</span>: <span class="st">'Job Count'</span>})</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    plt.scatter(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        onet_group[<span class="st">'ONET_NAME'</span>], </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        onet_group[<span class="st">'Median Salary'</span>], </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        s<span class="op">=</span>onet_group[<span class="st">'Job Count'</span>] <span class="op">*</span> <span class="fl">0.2</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        alpha<span class="op">=</span><span class="fl">0.6</span>, c<span class="op">=</span>onet_group[<span class="st">'Median Salary'</span>], cmap<span class="op">=</span><span class="st">'coolwarm'</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Salary by ONET Occupation Type'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'ONET Type'</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Median Salary'</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q7_onet_bubble.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q7_onet_bubble.svg" class="img-fluid" alt="Salary by ONET Occupation Type"> The dataset shows only one ONET occupation type, Business Intelligence Analysts, with a median starting salary of around $88,000. The large bubble size reflects a high number of job postings, indicating both strong demand and a concentrated occupation type in this dataset.</p>
+</section>
+<section id="career-pathway-trends-sankey-diagram" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Career Pathway Trends (Sankey Diagram)</h1>
+<ul>
+<li>Visualize job transitions between different occupation levels.</li>
+<li><strong>Aggregate Data</strong>
+<ul>
+<li>Identify career transitions between <strong>SOC job classifications</strong>.</li>
+</ul></li>
+<li><strong>Visualize results</strong>
+<ul>
+<li>Create a <strong>Sankey diagram</strong> where:
+<ul>
+<li><strong>Source</strong> = <code>SOC_2021_2_NAME</code></li>
+<li><strong>Target</strong> = <code>SOC_2021_3_NAME</code></li>
+<li><strong>Value</strong> = Number of transitions</li>
+</ul></li>
+<li>Apply custom colors and font styles.</li>
+</ul></li>
+<li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
+</ul>
+<div id="cell-26" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_career_path_sankey(df):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    df_path <span class="op">=</span> df[[<span class="st">'SOC_2021_2_NAME'</span>, <span class="st">'SOC_2021_3_NAME'</span>]].dropna()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    path_counts <span class="op">=</span> df_path.groupby([<span class="st">'SOC_2021_2_NAME'</span>, <span class="st">'SOC_2021_3_NAME'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Count'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    all_nodes <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(path_counts[<span class="st">'SOC_2021_2_NAME'</span>]) <span class="op">|</span> <span class="bu">set</span>(path_counts[<span class="st">'SOC_2021_3_NAME'</span>]))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    node_indices <span class="op">=</span> {k: v <span class="cf">for</span> v, k <span class="kw">in</span> <span class="bu">enumerate</span>(all_nodes)}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> go.Figure(data<span class="op">=</span>[go.Sankey(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        node<span class="op">=</span><span class="bu">dict</span>(label<span class="op">=</span>all_nodes),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        link<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            source<span class="op">=</span>path_counts[<span class="st">'SOC_2021_2_NAME'</span>].<span class="bu">map</span>(node_indices),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            target<span class="op">=</span>path_counts[<span class="st">'SOC_2021_3_NAME'</span>].<span class="bu">map</span>(node_indices),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            value<span class="op">=</span>path_counts[<span class="st">'Count'</span>]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    )])</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    fig.write_image(<span class="st">'_output/q8_career_sankey.svg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="_output/q8_career_sankey.svg" class="img-fluid" alt="Career Pathway Sankey"> The Sankey diagram shows a single career transition from Computer and Mathematical Occupations to Mathematical Science Occupations.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Your Name">
-<meta name="dcterms.date" content="2024-11-21">
+<meta name="author" content="Yani Tao">
+<meta name="dcterms.date" content="2025-03-25">
 
 <title>Module 04: Lab 01</title>
 <style>
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="lab06_yanitao_files/libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="lab06_yanitao_files/libs/clipboard/clipboard.min.js"></script>
 <script src="lab06_yanitao_files/libs/quarto-html/quarto.js"></script>
 <script src="lab06_yanitao_files/libs/quarto-html/popper.min.js"></script>
 <script src="lab06_yanitao_files/libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,6 +69,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="lab06_yanitao_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="lab06_yanitao_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="lab06_yanitao_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -100,14 +103,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Your Name </p>
+             <p>Yani Tao </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 21, 2024</p>
+      <p class="date">March 25, 2025</p>
     </div>
   </div>
   
@@ -131,45 +134,182 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-1-load-the-dataset" class="level1 unnumbered">
 <h1 class="unnumbered">Step 1: Load the Dataset</h1>
-<div id="cell-3" class="cell">
+<div id="cell-3" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pio.renderers.default <span class="op">=</span> <span class="st">"vscode"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Spark Session</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.appName(<span class="st">"LightcastData"</span>).getOrCreate()</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.option(<span class="st">"header"</span>, <span class="st">"true"</span>).option(<span class="st">"inferSchema"</span>, <span class="st">"true"</span>).option(<span class="st">"multiLine"</span>,<span class="st">"true"</span>).option(<span class="st">"escape"</span>, <span class="st">"</span><span class="ch">\"</span><span class="st">"</span>).csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Show Schema and Sample Data</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Py4JJavaError: An error occurred while calling None.org.apache.spark.api.java.JavaSparkContext.
-: java.lang.UnsupportedOperationException: getSubject is supported only if a security manager is allowed
-    at java.base/javax.security.auth.Subject.getSubject(Subject.java:347)
-    at org.apache.hadoop.security.UserGroupInformation.getCurrentUser(UserGroupInformation.java:577)
-    at org.apache.spark.util.Utils$.$anonfun$getCurrentUserName$1(Utils.scala:2416)
-    at scala.Option.getOrElse(Option.scala:189)
-    at org.apache.spark.util.Utils$.getCurrentUserName(Utils.scala:2416)
-    at org.apache.spark.SparkContext.&lt;init&gt;(SparkContext.scala:329)
-    at org.apache.spark.api.java.JavaSparkContext.&lt;init&gt;(JavaSparkContext.scala:58)
-    at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-    at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:501)
-    at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:485)
-    at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:247)
-    at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-    at py4j.Gateway.invoke(Gateway.java:238)
-    at py4j.commands.ConstructorCommand.invokeConstructor(ConstructorCommand.java:80)
-    at py4j.commands.ConstructorCommand.execute(ConstructorCommand.java:69)
-    at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
-    at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
-    at java.base/java.lang.Thread.run(Thread.java:1575)</code></pre>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置默认风格</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 读取数据</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'_output/lightcast_cleaned.csv'</span>, parse_dates<span class="op">=</span>[<span class="st">'POSTED'</span>, <span class="st">'EXPIRED'</span>, <span class="st">'LAST_UPDATED_DATE'</span>])</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 显示数据结构和前几行</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(32398, 132)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ID</th>
+<th data-quarto-table-cell-role="th">LAST_UPDATED_DATE</th>
+<th data-quarto-table-cell-role="th">LAST_UPDATED_TIMESTAMP</th>
+<th data-quarto-table-cell-role="th">DUPLICATES</th>
+<th data-quarto-table-cell-role="th">POSTED</th>
+<th data-quarto-table-cell-role="th">EXPIRED</th>
+<th data-quarto-table-cell-role="th">DURATION</th>
+<th data-quarto-table-cell-role="th">SOURCE_TYPES</th>
+<th data-quarto-table-cell-role="th">SOURCES</th>
+<th data-quarto-table-cell-role="th">URL</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_3</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_3_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_4</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_4_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_5</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_5_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_6</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_6_NAME</th>
+<th data-quarto-table-cell-role="th">AVERAGE_SALARY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>cb5ca25f02bdf25c13edfede7931508bfd9e858f</td>
+<td>2024-06-19</td>
+<td>2024-06-19 07:00:00.000 Z</td>
+<td>0.0</td>
+<td>2024-06-02</td>
+<td>2024-06-17</td>
+<td>15.0</td>
+<td>[\n "FreeJobBoard"\n]</td>
+<td>[\n "craigslist.org"\n]</td>
+<td>[\n "https://modesto.craigslist.org/sls/77475...</td>
+<td>...</td>
+<td>Unclassified Industry</td>
+<td>999.0</td>
+<td>Unclassified Industry</td>
+<td>9999.0</td>
+<td>Unclassified Industry</td>
+<td>99999.0</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
+<td>Unclassified Industry</td>
+<td>92500.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>35a6cd2183d9fb270e3f504b270f36d43cb759a6</td>
+<td>2024-09-06</td>
+<td>2024-09-06 20:32:57.352 Z</td>
+<td>0.0</td>
+<td>2024-06-02</td>
+<td>2024-06-12</td>
+<td>10.0</td>
+<td>[\n "Job Board"\n]</td>
+<td>[\n "dejobs.org"\n]</td>
+<td>[\n "https://dejobs.org/little-rock-ar/sr-lea...</td>
+<td>...</td>
+<td>Information</td>
+<td>517.0</td>
+<td>Telecommunications</td>
+<td>5178.0</td>
+<td>All Other Telecommunications</td>
+<td>51781.0</td>
+<td>All Other Telecommunications</td>
+<td>517810.0</td>
+<td>All Other Telecommunications</td>
+<td>110155.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>229620073766234e814e8add21db7dfaef69b3bd</td>
+<td>2024-10-09</td>
+<td>2024-10-09 18:07:44.758 Z</td>
+<td>0.0</td>
+<td>2024-06-02</td>
+<td>2024-08-01</td>
+<td>NaN</td>
+<td>[\n "Company"\n]</td>
+<td>[\n "3ds.com"\n]</td>
+<td>[\n "https://www.3ds.com/careers/jobs/sr-mark...</td>
+<td>...</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541.0</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>5415.0</td>
+<td>Computer Systems Design and Related Services</td>
+<td>54151.0</td>
+<td>Computer Systems Design and Related Services</td>
+<td>541511.0</td>
+<td>Custom Computer Programming Services</td>
+<td>92962.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>b7aa80a24c82f080cca31a8b5b720824eb2b71f3</td>
+<td>2024-09-28</td>
+<td>2024-09-28 14:06:14.129 Z</td>
+<td>8.0</td>
+<td>2024-06-02</td>
+<td>2024-09-27</td>
+<td>NaN</td>
+<td>[\n "Government",\n "Company",\n "Job Board...</td>
+<td>[\n "dcscorp.com",\n "latpro.com",\n "ca.go...</td>
+<td>[\n "https://www.latpro.com/career/8048496/Da...</td>
+<td>...</td>
+<td>Wholesale Trade</td>
+<td>423.0</td>
+<td>Merchant Wholesalers, Durable Goods</td>
+<td>4238.0</td>
+<td>Machinery, Equipment, and Supplies Merchant Wh...</td>
+<td>42383.0</td>
+<td>Industrial Machinery and Equipment Merchant Wh...</td>
+<td>423830.0</td>
+<td>Industrial Machinery and Equipment Merchant Wh...</td>
+<td>107645.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>57b527ea0f91db5bb17f82ff3d34dcdb7afe5c13</td>
+<td>2024-09-06</td>
+<td>2024-09-06 20:32:57.352 Z</td>
+<td>0.0</td>
+<td>2024-06-02</td>
+<td>2024-07-27</td>
+<td>55.0</td>
+<td>[\n "Job Board"\n]</td>
+<td>[\n "simplyhired.com"\n]</td>
+<td>[\n "https://www.simplyhired.com/job/InNNBIUX...</td>
+<td>...</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541.0</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>5416.0</td>
+<td>Management, Scientific, and Technical Consulti...</td>
+<td>54161.0</td>
+<td>Management Consulting Services</td>
+<td>541611.0</td>
+<td>Administrative Management and General Manageme...</td>
+<td>192800.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 132 columns</p>
+</div>
 </div>
 </div>
 </section>
@@ -196,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-5" class="cell" data-execution_count="10">
+<div id="cell-5" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -216,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q1_salary_by_employment_type.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q1_salary_by_employment_type.svg" class="img-fluid" alt="Salary Distribution by Employment Type"> Full-time employment (more than 32 hours) shows a higher median starting salary compared to part-time roles. However, salary distributions for all employment types include significant outliers, indicating variation within each category.</p>
+<p><img src="./_output/q1_salary_by_employment_type.svg" class="img-fluid" alt="Salary Distribution by Employment Type"> Full-time employment (more than 32 hours) shows a higher median starting salary compared to part-time roles. However, salary distributions for all employment types include significant outliers, indicating variation within each category.</p>
 </section>
 <section id="salary-distribution-by-industry" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Salary Distribution by Industry</h1>
@@ -241,7 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-8" class="cell" data-execution_count="1">
+<div id="cell-8" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_salary_distribution_by_industry(df):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">=</span> <span class="st">'_output/q2_salary_by_industry.svg'</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -263,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    plt.savefig(output_path, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q2_salary_by_industry.svg" class="img-fluid" alt="Salary Distribution by Industry"> Industries such as “Information” and “Professional, Scientific, and Technical Services” exhibit higher median starting salaries. In contrast, sectors like “Educational Services” and “Public Administration” tend to offer lower starting salaries, reflecting industry-based compensation differences.</p>
+<p><img src="./_output/q2_salary_by_industry.svg" class="img-fluid" alt="Salary Distribution by Industry"> Industries such as “Information” and “Professional, Scientific, and Technical Services” exhibit higher median starting salaries. In contrast, sectors like “Educational Services” and “Public Administration” tend to offer lower starting salaries, reflecting industry-based compensation differences.</p>
 </section>
 <section id="job-posting-trends-over-time" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Job Posting Trends Over Time</h1>
@@ -284,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-11" class="cell" data-execution_count="2">
+<div id="cell-11" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_job_trends_over_time(df):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'POSTED_DATE'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    post_counts <span class="op">=</span> df.groupby(<span class="st">'POSTED_DATE'</span>).size().reset_index(name<span class="op">=</span><span class="st">'Job Count'</span>)</span>
@@ -299,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q3_posting_trend.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q3_posting_trend.svg" class="img-fluid" alt="Job Posting Trends Over Time"> Job postings decreased from May to July 2024, hitting a low point in July. However, there was a strong rebound in August and September, indicating renewed hiring activity towards the end of the quarter.</p>
+<p><img src="./_output/q3_posting_trend.svg" class="img-fluid" alt="Job Posting Trends Over Time"> Job postings decreased from May to July 2024, hitting a low point in July. However, there was a strong rebound in August and September, indicating renewed hiring activity towards the end of the quarter.</p>
 </section>
 <section id="top-10-job-titles-by-count" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Top 10 Job Titles by Count</h1>
@@ -321,7 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-14" class="cell" data-execution_count="3">
+<div id="cell-14" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_top_10_job_titles(df):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    top_titles <span class="op">=</span> df[<span class="st">'TITLE_NAME'</span>].value_counts().nlargest(<span class="dv">10</span>).reset_index()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    top_titles.columns <span class="op">=</span> [<span class="st">'TITLE_NAME'</span>, <span class="st">'Job Count'</span>]</span>
@@ -334,7 +474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q4_top_titles.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q4_top_titles.svg" class="img-fluid" alt="Top 10 Job Titles"> “Data Analysts” dominate the job postings with a significantly higher count than other titles, highlighting strong demand for data-focused roles. Roles like “Business Intelligence Analysts” and “Enterprise Architects” also appear frequently, suggesting ongoing needs in analytics and strategic IT planning.</p>
+<p><img src="./_output/q4_top_titles.svg" class="img-fluid" alt="Top 10 Job Titles"> “Data Analysts” dominate the job postings with a significantly higher count than other titles, highlighting strong demand for data-focused roles. Roles like “Business Intelligence Analysts” and “Enterprise Architects” also appear frequently, suggesting ongoing needs in analytics and strategic IT planning.</p>
 </section>
 <section id="remote-vs-on-site-job-postings" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Remote vs On-Site Job Postings</h1>
@@ -355,7 +495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-17" class="cell" data-execution_count="4">
+<div id="cell-17" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_remote_vs_onsite(df):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    remote_counts <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts().reset_index()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    remote_counts.columns <span class="op">=</span> [<span class="st">'REMOTE_TYPE_NAME'</span>, <span class="st">'Job Count'</span>]</span>
@@ -366,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q5_remote_vs_onsite.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q5_remote_vs_onsite.svg" class="img-fluid" alt="Remote vs On-Site Job Postings"> A significant portion (73.2%) of job postings lack remote work classification, indicating incomplete labeling or on-site defaults. Among those labeled, 21.3% are remote roles, suggesting a moderate trend toward remote work but still a minority overall.</p>
+<p><img src="./_output/q5_remote_vs_onsite.svg" class="img-fluid" alt="Remote vs On-Site Job Postings"> A significant portion (73.2%) of job postings lack remote work classification, indicating incomplete labeling or on-site defaults. Among those labeled, 21.3% are remote roles, suggesting a moderate trend toward remote work but still a minority overall.</p>
 </section>
 <section id="skill-demand-analysis-by-industry-stacked-bar-chart" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Skill Demand Analysis by Industry (Stacked Bar Chart)</h1>
@@ -389,7 +529,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-20" class="cell" data-execution_count="5">
+<div id="cell-20" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_skill_demand_stacked(df):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> ast</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'SKILLS_NAME'</span>] <span class="op">=</span> df[<span class="st">'SKILLS_NAME'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: ast.literal_eval(x) <span class="cf">if</span> <span class="bu">isinstance</span>(x, <span class="bu">str</span>) <span class="kw">and</span> x.startswith(<span class="st">'['</span>) <span class="cf">else</span> [])</span>
@@ -409,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q6_skill_stacked.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q6_skill_stacked.svg" class="img-fluid" alt="Top 5 Skill Demand by Industry"> Across industries, Communication, Data Analysis, and Management consistently rank among the top demanded skills. Particularly in “Professional, Scientific, and Technical Services” and “Finance and Insurance”, the demand for these core skills is significantly higher, indicating a strong emphasis on both interpersonal and analytical capabilities.</p>
+<p><img src="./_output/q6_skill_stacked.svg" class="img-fluid" alt="Top 5 Skill Demand by Industry"> Across industries, Communication, Data Analysis, and Management consistently rank among the top demanded skills. Particularly in “Professional, Scientific, and Technical Services” and “Finance and Insurance”, the demand for these core skills is significantly higher, indicating a strong emphasis on both interpersonal and analytical capabilities.</p>
 </section>
 <section id="salary-analysis-by-onet-occupation-type-bubble-chart" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Salary Analysis by ONET Occupation Type (Bubble Chart)</h1>
@@ -431,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-23" class="cell" data-execution_count="6">
+<div id="cell-23" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_salary_by_onet_type(df):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    onet_group <span class="op">=</span> df.groupby(<span class="st">'ONET_NAME'</span>).agg({</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'SALARY_FROM'</span>: <span class="st">'median'</span>,</span>
@@ -452,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">'_output/q7_onet_bubble.svg'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'svg'</span>)</span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q7_onet_bubble.svg" class="img-fluid" alt="Salary by ONET Occupation Type"> The dataset shows only one ONET occupation type, Business Intelligence Analysts, with a median starting salary of around $88,000. The large bubble size reflects a high number of job postings, indicating both strong demand and a concentrated occupation type in this dataset.</p>
+<p><img src="./_output/q7_onet_bubble.svg" class="img-fluid" alt="Salary by ONET Occupation Type"> The dataset shows only one ONET occupation type, Business Intelligence Analysts, with a median starting salary of around $88,000. The large bubble size reflects a high number of job postings, indicating both strong demand and a concentrated occupation type in this dataset.</p>
 </section>
 <section id="career-pathway-trends-sankey-diagram" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Career Pathway Trends (Sankey Diagram)</h1>
@@ -474,7 +614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><strong>Explanation:</strong> Write two sentences about what the graph reveals.</li>
 </ul>
-<div id="cell-26" class="cell" data-execution_count="7">
+<div id="cell-26" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_career_path_sankey(df):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    df_path <span class="op">=</span> df[[<span class="st">'SOC_2021_2_NAME'</span>, <span class="st">'SOC_2021_3_NAME'</span>]].dropna()</span>
@@ -491,7 +631,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    )])</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    fig.write_image(<span class="st">'_output/q8_career_sankey.svg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="q8_career_sankey.svg" class="img-fluid" alt="Career Pathway Sankey"> The Sankey diagram shows a single career transition from Computer and Mathematical Occupations to Mathematical Science Occupations.</p>
+<p><img src="./_output/q8_career_sankey.svg" class="img-fluid" alt="Career Pathway Sankey"> The Sankey diagram shows a single career transition from Computer and Mathematical Occupations to Mathematical Science Occupations.</p>
 </section>
 
 </main>

@@ -35,7 +35,7 @@ httpx==0.28.1
 hvplot==0.11.2
 idna==3.10
 ipykernel==6.29.5
-ipython==9.0.2
+ipython==8.12.2
 ipython_pygments_lexers==1.1.1
 ipywidgets==8.1.5
 isoduration==20.11.0
@@ -106,7 +106,6 @@ python-dateutil==2.9.0.post0
 python-json-logger==3.3.0
 pytz==2025.1
 pyviz_comms==3.0.4
-pywin32==310
 pywinpty==2.0.15
 PyYAML==6.0.2
 pyzmq==26.3.0
